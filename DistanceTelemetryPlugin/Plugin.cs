@@ -170,7 +170,7 @@ namespace DistanceTelemetryPlugin
                     Heat = car_log.heat_,
                     Pos = localCar.transform.position,
                     Rot = localCar.transform.rotation,
-                    EulRot = localCar.transform.rotation.eulerAngles,
+                    EulRot = PitchYawRoll(localCar.transform.rotation),
                     Vel = car_rg.velocity,
                     AngVel = car_rg.angularVelocity,
                     Inputs = new Inputs
@@ -270,6 +270,15 @@ namespace DistanceTelemetryPlugin
                 TrackT = eventData.trackT_
             };
             Callback(data);
+        }
+
+        public static Vector3 PitchYawRoll(Quaternion q)
+        {
+            var yaw = (float)Math.Atan2(2 * q.y * q.w - 2 * q.x * q.z, 1 - 2 * q.y * q.y - 2 * q.z * q.z) * Mathf.Rad2Deg;
+            var pitch = (float)Math.Atan2(2 * q.x * q.w - 2 * q.y * q.z, 1 - 2 * q.x * q.x - 2 * q.z * q.z) * Mathf.Rad2Deg;
+            var roll = (float)Math.Asin(2 * q.x * q.y + 2 * q.z * q.w) * Mathf.Rad2Deg;
+
+            return new Vector3 (pitch, yaw, roll);
         }
 
         private void LocalVehicle_Collided(Impact.Data eventData)
