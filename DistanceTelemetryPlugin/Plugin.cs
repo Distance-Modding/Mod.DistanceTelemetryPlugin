@@ -278,7 +278,7 @@ namespace DistanceTelemetryPlugin
             var pitch = (float)Math.Atan2(2 * q.x * q.w - 2 * q.y * q.z, 1 - 2 * q.x * q.x - 2 * q.z * q.z) * Mathf.Rad2Deg;
             var roll = (float)Math.Asin(2 * q.x * q.y + 2 * q.z * q.w) * Mathf.Rad2Deg;
 
-            return new Vector3 (pitch, yaw, roll);
+            return new Vector3 (pitch, yaw, -roll);
         }
 
         private void LocalVehicle_Collided(Impact.Data eventData)
